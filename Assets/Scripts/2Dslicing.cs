@@ -2,109 +2,96 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Burst.Intrinsics;
 
 public class Slicing2D : MonoBehaviour
 {
-    // 1. get points of intersection
-    // 2. add verticies at points of intersection
-    // 3. add triangles to create new mesh
-    // 4. add UVs to new mesh
-    // 5. add normals to new mesh
-    // 6. render new mesh in two new game objects
-
+   
     public GameObject obj;
     public Mesh mesh;
     public Vector3[] vertices;
     public Transform point1;
     public Transform point2;
-    public Transform intersection;
-
-    public List<int> tri = new List<int>();
+    public GameObject point3;
+    public List<Vector3> intersections = new List<Vector3>();
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
         vertices = mesh.vertices;
+        getIntersectionPoints(point1.position, point2.position, mesh.triangles);
 
-        getIntersectionsInTriangles(mesh.triangles);
-    }
-
-    (float, float)getLine(Vector3 p1, Vector3 p2)
-    {
-        float m = (p2.y - p1.y) / (p2.x - p1.x);
-
-        if(p2.x - p1.x == 0)
-        {
-            m = 999;
+        for(int i = 0; i < intersections.Count; i++){
+            Instantiate(point3, intersections[i], Quaternion.identity);
         }
-        float c = p1.y - m * p1.x;
-        return (m, c);
-    }
 
-    bool IsWithinSegmentBounds(Vector3 p1, Vector3 p2, Vector3 point)
-    {
-        // Check if point's x is within the bounds of the segment defined by p1 and p2
-        bool withinXBounds = (point.x >= p1.x && point.x <= p2.x) || (point.x >= p2.x && point.x <= p1.x);
-        
-
-        // Check if point's y is within the bounds of the segment defined by p1 and p2
-        bool withinYBounds = (point.y >= p1.y && point.y <= p2.y) || (point.y >= p2.y && point.y <= p1.y);
-        // Return true if the point is within both the x and y bounds
-        return withinXBounds == true && withinYBounds == true;
         
     }
 
-    Vector3 getIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
-    {
-        (float m1, float c1) = getLine(p1, p2);
-        (float m2, float c2) = getLine(p3, p4);
-        float x = (c2 - c1) / (m1 - m2);
-        float y = m1 * x + c1;
+    Vector3 findLineIntersectionOnPlane(Vector3 v1, Vector3 v2, Vector3 planeNormal, float D){
+        float A = planeNormal.x;
+        float B = planeNormal.y;
+        float C = planeNormal.z;
+        
+        float t = -(A * v1.x + B * v1.z + C * v1.y + D) / (A * (v2.x - v1.x) + B * (v2.z - v1.z) + C * (v2.y - v1.y));
+        if (t < 0 || t > 1)
+        {
+            return Vector3.forward;
+        }
 
-        Vector3 intersection = new Vector3(x, y, 0);
-        // Check if the intersection is within the bounds of the segments
-        if (IsWithinSegmentBounds(p1, p2, intersection))
-        {
-            
-            return intersection;
-        }
-        else
-        {
-            return Vector3.zero;  // Return zero if no valid intersection
-        }
+        float x = v1.x + t * (v2.x - v1.x);
+        float y = v1.z + t * (v2.z - v1.z); 
+        float z = v1.y + t * (v2.y - v1.y); 
+
+        return new Vector3(x, y, z);
     }
 
-    int getIntersectionsInTriangles(int[] triangles)
-    {
-        int intersectionCount = 0;
+    void getIntersectionPoints(Vector3 p1, Vector3 p2, int[] triangles){
+        Vector3 planeNormal = Vector3.Cross(p1- p2, Vector3.forward).normalized;
+        Plane slicingPlane = new Plane(planeNormal, point1.position);
+        //---- dubugging 
+        Debug.DrawLine(p1, p2, Color.red, 10f);
+        Vector3 planeCenter = (p1 + p2) / 2;
+        Vector3 planeUp = Vector3.Cross(planeNormal, p2 - p1).normalized;
+        Vector3 planeRight = (p2 - p1).normalized;
+
+        float planeSize = 10f;
+        Vector3 corner1 = planeCenter + planeRight * planeSize + planeUp * planeSize;
+        Vector3 corner2 = planeCenter + planeRight * planeSize - planeUp * planeSize;
+        Vector3 corner3 = planeCenter - planeRight * planeSize + planeUp * planeSize;
+        Vector3 corner4 = planeCenter - planeRight * planeSize - planeUp * planeSize;
+
+        Debug.DrawLine(corner1, corner2, Color.green, 10f);
+        Debug.DrawLine(corner2, corner4, Color.green, 10f);
+        Debug.DrawLine(corner4, corner3, Color.green, 10f);
+        Debug.DrawLine(corner3, corner1, Color.green, 10f);
+        //---- dubugging 
+
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 v1 = vertices[triangles[i]];
             Vector3 v2 = vertices[triangles[i + 1]];
             Vector3 v3 = vertices[triangles[i + 2]];
 
-            if(getIntersection(point1.position, point2.position, v1, v2) != Vector3.zero)
-            {
-                var z = Instantiate(intersection.gameObject, getIntersection(point1.position, point2.position, v1, v2), Quaternion.identity);
-                intersectionCount++;
+            Vector3 i_v1 = findLineIntersectionOnPlane(v1, v2, planeNormal, slicingPlane.distance);
+            Vector3 i_v2 = findLineIntersectionOnPlane(v2, v3, planeNormal, slicingPlane.distance);
+            Vector3 i_v3 = findLineIntersectionOnPlane(v3, v1, planeNormal, slicingPlane.distance);
+
+            if(i_v1 != Vector3.forward){
+                intersections.Add(i_v1);
             }
-            if(getIntersection(point1.position, point2.position, v2, v3) != Vector3.zero)
-            {
-                var z = Instantiate(intersection.gameObject, getIntersection(point1.position, point2.position, v2, v3), Quaternion.identity);
-                intersectionCount++;
+            if(i_v2 != Vector3.forward){
+                intersections.Add(i_v2);
             }
-            if(getIntersection(point1.position, point2.position, v3, v1) != Vector3.zero)
-            {
-                var z = Instantiate(intersection.gameObject, getIntersection(point1.position, point2.position, v3, v1), Quaternion.identity);
-                intersectionCount++;
+            if(i_v3 != Vector3.forward){
+                intersections.Add(i_v3);
             }
         }
-        return intersectionCount;
     }
+
 
     void Update()
     {
-        //print(getIntersectionsInTriangles(mesh.triangles));
-        tri = mesh.triangles.ToList<int>();
+            
     }
 
 
