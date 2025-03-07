@@ -1,0 +1,1738 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Unity\\Procedural Slicing\\PPv2URPConverters.csproj": {}
+  },
+  "projects": {
+    "E:\\Unity\\Procedural Slicing\\PPv2URPConverters.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\PPv2URPConverters.csproj",
+        "projectName": "PPv2URPConverters",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\PPv2URPConverters.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\PPv2URPConverters\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj",
+        "projectName": "Unity.Burst",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Burst\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Burst.Editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Burst.Editor.csproj",
+        "projectName": "Unity.Burst.Editor",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.Editor.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Burst.Editor\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj",
+        "projectName": "Unity.Collections",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Collections\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.InputSystem.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.InputSystem.csproj",
+        "projectName": "Unity.InputSystem",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.InputSystem.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.InputSystem\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj",
+        "projectName": "Unity.Mathematics",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Mathematics\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.Editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.Editor.csproj",
+        "projectName": "Unity.Mathematics.Editor",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.Editor.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Mathematics.Editor\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Rendering.LightTransport.Runtime.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Rendering.LightTransport.Runtime.csproj",
+        "projectName": "Unity.Rendering.LightTransport.Runtime",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Rendering.LightTransport.Runtime.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Rendering.LightTransport.Runtime\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj",
+        "projectName": "Unity.RenderPipeline.Universal.ShaderLibrary",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipeline.Universal.ShaderLibrary\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj",
+        "projectName": "Unity.RenderPipelines.Core.Editor",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Core.Editor\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Rendering.LightTransport.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Rendering.LightTransport.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.Shared.csproj",
+        "projectName": "Unity.RenderPipelines.Core.Editor.Shared",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.Shared.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Core.Editor.Shared\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj",
+        "projectName": "Unity.RenderPipelines.Core.Runtime",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Core.Runtime\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.InputSystem.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.InputSystem.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj",
+        "projectName": "Unity.RenderPipelines.Core.Runtime.Shared",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Core.Runtime.Shared\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj",
+        "projectName": "Unity.RenderPipelines.GPUDriven.Runtime",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.GPUDriven.Runtime\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Collections.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.2D.Runtime.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.2D.Runtime.csproj",
+        "projectName": "Unity.RenderPipelines.Universal.2D.Runtime",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.2D.Runtime.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Universal.2D.Runtime\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Config.Runtime.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Config.Runtime.csproj",
+        "projectName": "Unity.RenderPipelines.Universal.Config.Runtime",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Config.Runtime.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Universal.Config.Runtime\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Editor.csproj",
+        "projectName": "Unity.RenderPipelines.Universal.Editor",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Editor.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Universal.Editor\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.Shared.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.Shared.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.2D.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.2D.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj",
+        "projectName": "Unity.RenderPipelines.Universal.Runtime",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Runtime.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.RenderPipelines.Universal.Runtime\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Burst.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Mathematics.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipeline.Universal.ShaderLibrary.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.Shared.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.GPUDriven.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Config.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Universal.Config.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.Searcher.Editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.Searcher.Editor.csproj",
+        "projectName": "Unity.Searcher.Editor",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Searcher.Editor.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.Searcher.Editor\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Editor.csproj",
+        "projectName": "Unity.ShaderGraph.Editor",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Editor.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.ShaderGraph.Editor\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.RenderPipelines.Core.Runtime.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.Searcher.Editor.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.Searcher.Editor.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Utilities.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Utilities.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Utilities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Utilities.csproj",
+        "projectName": "Unity.ShaderGraph.Utilities",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\Unity.ShaderGraph.Utilities.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\Unity.ShaderGraph.Utilities\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj",
+        "projectName": "UnityEditor.TestRunner",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\UnityEditor.TestRunner\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj",
+        "projectName": "UnityEditor.UI",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.UI.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\UnityEditor.UI\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEditor.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj"
+              },
+              "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+                "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj",
+        "projectName": "UnityEngine.TestRunner",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.TestRunner.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\UnityEngine.TestRunner\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj",
+        "projectName": "UnityEngine.UI",
+        "projectPath": "E:\\Unity\\Procedural Slicing\\UnityEngine.UI.csproj",
+        "packagesPath": "C:\\Users\\TheRe\\.nuget\\packages\\",
+        "outputPath": "E:\\Unity\\Procedural Slicing\\Temp\\obj\\Debug\\UnityEngine.UI\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\TheRe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
