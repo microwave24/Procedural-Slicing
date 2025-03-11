@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst.Intrinsics;
+using NUnit.Framework;
 
 public class Slicing2D : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class Slicing2D : MonoBehaviour
     public Transform point1;
     public Transform point2;
     public GameObject point3;
+    public GameObject mid1;
     public List<Vector3> intersections = new List<Vector3>();
+    public List<int> intersectedTriangles = new List<int>();
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
@@ -25,7 +28,11 @@ public class Slicing2D : MonoBehaviour
         }
 
         
+
+        
     }
+
+    
 
     Vector3 findLineIntersectionOnPlane(Vector3 v1, Vector3 v2, Vector3 planeNormal, float D){
         float A = planeNormal.x;
@@ -40,7 +47,9 @@ public class Slicing2D : MonoBehaviour
 
         float x = v1.x + t * (v2.x - v1.x);
         float y = v1.z + t * (v2.z - v1.z); 
-        float z = v1.y + t * (v2.y - v1.y); 
+        float z = v1.y + t * (v2.y - v1.y);
+
+        
 
         return new Vector3(x, y, z);
     }
@@ -68,31 +77,85 @@ public class Slicing2D : MonoBehaviour
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
+            List<Vector3> CurrentTriangle = new List<Vector3>();
+
             Vector3 v1 = vertices[triangles[i]];
             Vector3 v2 = vertices[triangles[i + 1]];
             Vector3 v3 = vertices[triangles[i + 2]];
+
+            CurrentTriangle.Add(v1);
+            CurrentTriangle.Add(v2);
+            CurrentTriangle.Add(v3);
 
             Vector3 i_v1 = findLineIntersectionOnPlane(v1, v2, planeNormal, slicingPlane.distance);
             Vector3 i_v2 = findLineIntersectionOnPlane(v2, v3, planeNormal, slicingPlane.distance);
             Vector3 i_v3 = findLineIntersectionOnPlane(v3, v1, planeNormal, slicingPlane.distance);
 
+            List<Vector3> localIntersects = new List<Vector3>();
+
             if(i_v1 != Vector3.forward){
                 intersections.Add(i_v1);
+                localIntersects.Add(i_v1);
             }
             if(i_v2 != Vector3.forward){
                 intersections.Add(i_v2);
+                localIntersects.Add(i_v2);
             }
             if(i_v3 != Vector3.forward){
                 intersections.Add(i_v3);
+                localIntersects.Add(i_v3);
+            }
+
+            if(i_v1 != Vector3.forward || i_v2 != Vector3.forward || i_v3 != Vector3.forward){
+                intersectedTriangles.Add(i);
+                intersectedTriangles.Add(i + 1);
+                intersectedTriangles.Add(i + 2);
+            }
+            if(localIntersects.Count > 0){
+                splitTriangle(mesh, CurrentTriangle.ToArray(), localIntersects[0], localIntersects[1], i);
             }
         }
+
+        
+
     }
 
-
-    void Update()
+    bool IsPointOnEdge(Vector3 A, Vector3 B, Vector3 P)
     {
-            
+        A = new Vector3(A.x, A.z, A.y);
+        B = new Vector3(B.x, B.z, B.y);
+       
+        Vector3 edge = B - A;
+        Vector3 vp = P - A;
+        
+            // Check if the point is collinear with the edge (cross product should be zero)
+        float cross = Vector3.Cross(edge, vp).magnitude;
+        
+        if(cross < 0.00001){
+            return true;
+        }
+        return false;
     }
+    
 
+    void splitTriangle(Mesh mesh, Vector3[] verts, Vector3 intersect1, Vector3 intersect2, int i){
+        (Vector3, Vector3) IntersectionlessEdge = (Vector3.zero, Vector3.zero);
+        
+        if(IsPointOnEdge(verts[0], verts[1], intersect1) == false && IsPointOnEdge(verts[0], verts[1], intersect2) == false){
+            IntersectionlessEdge = (verts[0], verts[1]);
+        }
+        else if(IsPointOnEdge(verts[1], verts[2], intersect1) == false && IsPointOnEdge(verts[1], verts[2], intersect2) == false){
+            IntersectionlessEdge = (verts[1], verts[2]);
+        }
+        else if(IsPointOnEdge(verts[2], verts[0], intersect1) == false && IsPointOnEdge(verts[2], verts[0], intersect2) == false){
+            IntersectionlessEdge = (verts[2], verts[0]);
+        }
+
+        Vector3 midPoint = (IntersectionlessEdge.Item1 + IntersectionlessEdge.Item2) / 2;
+        midPoint = new Vector3(midPoint.x, midPoint.z, midPoint.y);
+
+        var m = Instantiate(mid1, midPoint, Quaternion.identity);
+        m.name = i.ToString();
+    }
 
 }

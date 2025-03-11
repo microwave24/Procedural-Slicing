@@ -157,7 +157,9 @@ MonoBehaviour:
   point1: {fileID: 523029425}
   point2: {fileID: 2094111395}
   point3: {fileID: 8451172569575594724, guid: 1e901e20b6cd25848b219d77f85a44ab, type: 3}
+  mid1: {fileID: 8451172569575594724, guid: ef62f8bd860816d4ea260edd21cdb9f4, type: 3}
   intersections: []
+  intersectedTriangles: 
 --- !u!64 &76240306
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -306,7 +308,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -608,7 +610,7 @@ Transform:
   m_GameObject: {fileID: 523029421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.3, y: 4.13, z: 0}
+  m_LocalPosition: {x: -4.42, y: 5.48, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -765,7 +767,7 @@ Transform:
   m_GameObject: {fileID: 2094111391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.31, y: -0.81, z: 0}
+  m_LocalPosition: {x: -4.5, y: -5.73, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
