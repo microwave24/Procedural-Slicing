@@ -36,8 +36,8 @@ public class Slicing2D : MonoBehaviour
 
     Vector3 findLineIntersectionOnPlane(Vector3 v1, Vector3 v2, Vector3 planeNormal, float D){
         float A = planeNormal.x;
-        float B = planeNormal.y;
-        float C = planeNormal.z;
+        float B = planeNormal.z;
+        float C = planeNormal.y;
         
         float t = -(A * v1.x + B * v1.z + C * v1.y + D) / (A * (v2.x - v1.x) + B * (v2.z - v1.z) + C * (v2.y - v1.y));
         if (t < 0 || t > 1)
@@ -51,7 +51,7 @@ public class Slicing2D : MonoBehaviour
 
         
 
-        return new Vector3(x, y, z);
+        return new Vector3(x, z, y);
     }
 
     void getIntersectionPoints(Vector3 p1, Vector3 p2, int[] triangles){
@@ -155,7 +155,57 @@ public class Slicing2D : MonoBehaviour
         midPoint = new Vector3(midPoint.x, midPoint.z, midPoint.y);
 
         var m = Instantiate(mid1, midPoint, Quaternion.identity);
-        m.name = i.ToString();
+        
+
+        int baseTriangleIndex = 0;
+
+        int basePoint0 = 0, basePoint1 = 0, basePoint2 = 0;
+
+        List<Vector3> newVertices = new List<Vector3>(mesh.vertices);
+        List<int> newTriangles = new List<int>(mesh.triangles);
+
+
+        for (int j = 0; j < newTriangles.Count; j += 3)
+        {
+            if ((vertices[newTriangles[j]] == verts[0] && vertices[newTriangles[j + 1]] == verts[1] && vertices[newTriangles[j + 2]] == verts[2]) ||
+                (vertices[newTriangles[j]] == verts[1] && vertices[newTriangles[j + 1]] == verts[2] && vertices[newTriangles[j + 2]] == verts[0]) ||
+                (vertices[newTriangles[j]] == verts[2] && vertices[newTriangles[j + 1]] == verts[0] && vertices[newTriangles[j + 2]] == verts[1]))
+            {
+                basePoint0 = newTriangles[j];
+                basePoint1 = newTriangles[j + 1];
+                basePoint2 = newTriangles[j + 2];
+
+
+                baseTriangleIndex = j;
+
+                break;
+            }
+        }
+
+        
+        
+
+        newVertices.Add(midPoint);
+        int MidPointIndex = newVertices.Count - 1;  
+
+        newTriangles[baseTriangleIndex] = basePoint0;
+        newTriangles[baseTriangleIndex + 1] = MidPointIndex;
+        newTriangles[baseTriangleIndex + 2] = basePoint2;
+        
+        newTriangles.Add(MidPointIndex);
+        newTriangles.Add(basePoint1);
+        newTriangles.Add(basePoint2);
+        
+
+
+
+
+
+
+        mesh.vertices = newVertices.ToArray();
+        
+        mesh.triangles = newTriangles.ToArray();
+        
     }
 
 }
