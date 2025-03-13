@@ -14,25 +14,24 @@ public class Slicing2D : MonoBehaviour
     public int[] tri;
     public Transform point1;
     public Transform point2;
-    public GameObject point3;
-    public GameObject mid1;
+    public GameObject p3;
+    public GameObject p4;
     public List<Vector3> intersections = new List<Vector3>();
+    public List<int> intersectionsIndicies = new List<int>();
     public List<int> intersectedTriangles = new List<int>();
+    private Plane slicingPlane;
+
+    public List<Vector3> topTriangles = new List<Vector3>();
+    public List<Vector3> bottomTriangles = new List<Vector3>();
     void Start()
     {
+        
         mesh = obj.GetComponent<MeshFilter>().mesh;
         vertices = mesh.vertices;
         tri = mesh.triangles;
         getIntersectionPoints(point1.position, point2.position, mesh.triangles);
-
-        for(int i = 0; i < intersections.Count; i++){
-            var c = Instantiate(point3, intersections[i], Quaternion.identity);
-            c.name = "Intersection Point " + i;
-        }
-
-        
-
-        
+        splitMesh(mesh, slicingPlane);
+        Destroy(obj);
     }
 
     
@@ -59,24 +58,7 @@ public class Slicing2D : MonoBehaviour
 
     void getIntersectionPoints(Vector3 p1, Vector3 p2, int[] triangles){
         Vector3 planeNormal = Vector3.Cross(p1- p2, Vector3.forward).normalized;
-        Plane slicingPlane = new Plane(planeNormal, point1.position);
-        //---- dubugging 
-        Debug.DrawLine(p1, p2, Color.red, 10f);
-        Vector3 planeCenter = (p1 + p2) / 2;
-        Vector3 planeUp = Vector3.Cross(planeNormal, p2 - p1).normalized;
-        Vector3 planeRight = (p2 - p1).normalized;
-
-        float planeSize = 10f;
-        Vector3 corner1 = planeCenter + planeRight * planeSize + planeUp * planeSize;
-        Vector3 corner2 = planeCenter + planeRight * planeSize - planeUp * planeSize;
-        Vector3 corner3 = planeCenter - planeRight * planeSize + planeUp * planeSize;
-        Vector3 corner4 = planeCenter - planeRight * planeSize - planeUp * planeSize;
-
-        Debug.DrawLine(corner1, corner2, Color.green, 10f);
-        Debug.DrawLine(corner2, corner4, Color.green, 10f);
-        Debug.DrawLine(corner4, corner3, Color.green, 10f);
-        Debug.DrawLine(corner3, corner1, Color.green, 10f);
-        //---- dubugging 
+        slicingPlane = new Plane(planeNormal, point1.position);
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
@@ -140,11 +122,73 @@ public class Slicing2D : MonoBehaviour
         }
         return false;
     }
-    
+
+    void splitMesh(Mesh mesh, Plane slicingPlane)
+    {
+        Debug.DrawRay(Vector3.zero, slicingPlane.normal, Color.red, 1000f);
+        List<Vector2> topUVs = new List<Vector2>();
+        List<Vector2> bottomUVs = new List<Vector2>();
+        for(int i = 0; i < mesh.triangles.Length; i += 3){
+            bool above = true;
+            for(int j = 0; j < 3; j++){
+                if(Vector3.Dot(slicingPlane.normal, mesh.vertices[mesh.triangles[i + j]]) > 0){
+                    above = false;
+                    break;
+                }
+            }
+
+            if(above == true){
+                topTriangles.Add(mesh.vertices[mesh.triangles[i]]);
+                topTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
+                topTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
+            }
+            else{
+                bottomTriangles.Add(mesh.vertices[mesh.triangles[i]]);
+                bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
+                bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
+            }
+
+        }
+
+        
+
+        // Create new game objects for the top and bottom parts
+        GameObject topPart = new GameObject("TopPart");
+        GameObject bottomPart = new GameObject("BottomPart");
+
+        // Add MeshFilter and MeshRenderer components to the new game objects
+        topPart.AddComponent<MeshFilter>();
+        topPart.AddComponent<MeshRenderer>();
+        bottomPart.AddComponent<MeshFilter>();
+        bottomPart.AddComponent<MeshRenderer>();
+
+        // Create new meshes for the top and bottom parts
+        Mesh topMesh = new Mesh();
+        Mesh bottomMesh = new Mesh();
+
+        // Assign vertices and triangles to the top mesh
+        topMesh.vertices = topTriangles.ToArray();
+        topMesh.triangles = Enumerable.Range(0, topTriangles.Count).ToArray();
+        topMesh.RecalculateNormals();
+
+        // Assign vertices and triangles to the bottom mesh
+        bottomMesh.vertices = bottomTriangles.ToArray();
+        bottomMesh.triangles = Enumerable.Range(0, bottomTriangles.Count).ToArray();
+        bottomMesh.RecalculateNormals();
+
+        // Assign the meshes to the MeshFilter components
+        topPart.GetComponent<MeshFilter>().mesh = topMesh;
+        bottomPart.GetComponent<MeshFilter>().mesh = bottomMesh;
+
+        // Optionally, set the same material as the original object
+        topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
+        bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
+    }
+        
 
     void SplitTriangle(Mesh mesh, Vector3[] verts, Vector3 intersect1, Vector3 intersect2){
 
-
+        // get the edge that was not intersected by the straight blade
         (Vector3, Vector3) IntersectionlessEdge = (Vector3.zero, Vector3.zero);
         (int, int)[] edges = new (int, int)[3];
         
@@ -163,28 +207,11 @@ public class Slicing2D : MonoBehaviour
             edges[2] = (2, 0);
         }
 
-        
-
-        
-
-        
-
-        
-
-
-
-        //
-
-
-
         // getting the connecting middle point for subdivision on the intersectionless edge
         Vector3 midPoint = (IntersectionlessEdge.Item1 + IntersectionlessEdge.Item2) / 2;
         midPoint = new Vector3(midPoint.x, midPoint.y, midPoint.z);
-
-        Instantiate(mid1, midPoint, Quaternion.identity);
         
         // triangle filling
-
         var newVertices = new List<Vector3>(mesh.vertices);
         var newTriangles = new List<int>(mesh.triangles);
 
@@ -199,48 +226,91 @@ public class Slicing2D : MonoBehaviour
                 basePoint0 = mesh.triangles[j];
                 basePoint1 = mesh.triangles[j + 1];
                 basePoint2 = mesh.triangles[j + 2];
+
+                newTriangles.RemoveRange(j, 3);
             break;
             }
         }
 
-        // Draw debug lines for the edges
-        Debug.DrawLine(verts[0], verts[1], Color.cyan, 10f); // Edge 0-1
-        Debug.DrawLine(verts[1], verts[2], Color.red, 10f);  // Edge 1-2
-        Debug.DrawLine(verts[2], verts[0], Color.magenta, 10f); // Edge 2-0
-
-
-        //newVertices.Add(midPoint);
+        // add the new verticies and remember where we stored them
+        newVertices.Add(midPoint);
         int midPointIndex = newVertices.Count - 1;
+
 
         newVertices.Add(intersect1);
         int intersect1Index = newVertices.Count - 1;
 
         newVertices.Add(intersect2);
         int intersect2Index = newVertices.Count - 1;
+        // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
+        // for each case, we have to draw the smaller triangles in a different way
+        if(edges[2] == (0, 1)){
 
+            print("0-1");
+            newTriangles.Add(basePoint0);
+            newTriangles.Add(midPointIndex);
+            newTriangles.Add(intersect2Index);
+
+            newTriangles.Add(basePoint1);
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(midPointIndex);
+
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(basePoint2);
+            newTriangles.Add(intersect2Index);
+
+            newTriangles.Add(midPointIndex);
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(intersect2Index);
+
+
+        }
+        else if(edges[2] == (1, 2)){
+            newTriangles.Add(basePoint0);
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(intersect2Index);
+            
+
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(basePoint1);
+            newTriangles.Add(midPointIndex);
+            
+            newTriangles.Add(intersect2Index);
+            newTriangles.Add(midPointIndex);
+            newTriangles.Add(basePoint2);
+            
+
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(midPointIndex);
+            newTriangles.Add(intersect2Index);
+            
+            
+        }
+        else if(edges[2] == (2, 0)){
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(basePoint1);
+            newTriangles.Add(intersect2Index);
+            
+
+            newTriangles.Add(basePoint0);
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(midPointIndex);
+            
+            newTriangles.Add(midPointIndex);
+            newTriangles.Add(intersect2Index);
+            newTriangles.Add(basePoint2);
+            
+            newTriangles.Add(intersect1Index);
+            newTriangles.Add(intersect2Index);
+            newTriangles.Add(midPointIndex);    
+        }
         
-
-        // based on what sides are intersected we need to add the new triangles in a different order for each possibility
-        // remember that edge[0] is the edge with intersect1 and intersect2 is edge[1] and edge[2] is the edge without intersection
-
-        
-
+        // regen the mesh
         mesh.Clear();
         mesh.vertices = newVertices.ToArray();
         mesh.triangles = newTriangles.ToArray();
         mesh.RecalculateNormals();
         
-    }
-
-    private int GetOrAddVertex(List<Vector3> vertices, Vector3 point)
-    {
-        int index = vertices.IndexOf(point);
-        if (index == -1)
-        {
-            index = vertices.Count;
-            vertices.Add(point);
-        }
-        return index;
     }
 
     void Update()
