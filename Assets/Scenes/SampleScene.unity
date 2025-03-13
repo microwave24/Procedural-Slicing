@@ -479,7 +479,7 @@ Transform:
   m_GameObject: {fileID: 523029421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.024, y: 0.225, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -567,17 +567,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj: {fileID: 1220042794}
   mesh: {fileID: 0}
-  vertices: []
-  tri: 
-  point1: {fileID: 523029425}
-  point2: {fileID: 2094111395}
-  p3: {fileID: 8451172569575594724, guid: ef62f8bd860816d4ea260edd21cdb9f4, type: 3}
-  p4: {fileID: 8451172569575594724, guid: 1e901e20b6cd25848b219d77f85a44ab, type: 3}
-  intersections: []
-  intersectionsIndicies: 
-  intersectedTriangles: 
-  topTriangles: []
-  bottomTriangles: []
+  point1: {x: -1, y: 0, z: 0}
+  point2: {x: 1, y: 0, z: 0}
+  uvs: []
 --- !u!23 &1220042796
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -601,7 +593,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 51f919d0d19179141b10f2824fe92641, type: 2}
+  - {fileID: 2100000, guid: 06925a49fa0545b4c9c8f1c4f26fb8ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -748,7 +740,7 @@ Transform:
   m_GameObject: {fileID: 2094111391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.972, y: -0.129, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []

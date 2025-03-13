@@ -10,27 +10,28 @@ public class Slicing2D : MonoBehaviour
    
     public GameObject obj;
     public Mesh mesh;
-    public Vector3[] vertices;
-    public int[] tri;
-    public Transform point1;
-    public Transform point2;
-    public GameObject p3;
-    public GameObject p4;
-    public List<Vector3> intersections = new List<Vector3>();
-    public List<int> intersectionsIndicies = new List<int>();
-    public List<int> intersectedTriangles = new List<int>();
+    public Vector3 point1;
+    public Vector3 point2;
+    private List<Vector3> intersections = new List<Vector3>();
+    private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
 
-    public List<Vector3> topTriangles = new List<Vector3>();
-    public List<Vector3> bottomTriangles = new List<Vector3>();
+    private List<Vector3> topTriangles = new List<Vector3>();
+    private List<Vector3> bottomTriangles = new List<Vector3>();
+    bool isIntersected = false;
+
+    public List<Vector2> uvs = new List<Vector2>();
     void Start()
     {
-        
         mesh = obj.GetComponent<MeshFilter>().mesh;
-        vertices = mesh.vertices;
-        tri = mesh.triangles;
-        getIntersectionPoints(point1.position, point2.position, mesh.triangles);
-        splitMesh(mesh, slicingPlane);
+        cut();
+    }
+
+    void cut(){
+        getIntersectionPoints(point1, point2, mesh.triangles);
+        if(isIntersected == true){
+            splitMesh(mesh, slicingPlane);
+        }
         Destroy(obj);
     }
 
@@ -51,22 +52,20 @@ public class Slicing2D : MonoBehaviour
         float y = v1.z + t * (v2.z - v1.z); 
         float z = v1.y + t * (v2.y - v1.y);
 
-        
-
         return new Vector3(x, z, y);
     }
 
     void getIntersectionPoints(Vector3 p1, Vector3 p2, int[] triangles){
         Vector3 planeNormal = Vector3.Cross(p1- p2, Vector3.forward).normalized;
-        slicingPlane = new Plane(planeNormal, point1.position);
+        slicingPlane = new Plane(planeNormal, p1);
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
             var CurrentTriangle = new List<Vector3>();
 
-            Vector3 v1 = vertices[triangles[i]];
-            Vector3 v2 = vertices[triangles[i + 1]];
-            Vector3 v3 = vertices[triangles[i + 2]];
+            Vector3 v1 = mesh.vertices[triangles[i]];
+            Vector3 v2 = mesh.vertices[triangles[i + 1]];
+            Vector3 v3 = mesh.vertices[triangles[i + 2]];
 
             CurrentTriangle.Add(v1);
             CurrentTriangle.Add(v2);
@@ -97,10 +96,12 @@ public class Slicing2D : MonoBehaviour
                 intersectedTriangles.Add(i + 2);
             }
             if(localIntersects.Count > 0){
+                isIntersected = true;
                 SplitTriangle(mesh, CurrentTriangle.ToArray(), localIntersects[0], localIntersects[1]);
             }
             
         }
+        
 
         
 
@@ -126,18 +127,11 @@ public class Slicing2D : MonoBehaviour
     void splitMesh(Mesh mesh, Plane slicingPlane)
     {
         Debug.DrawRay(Vector3.zero, slicingPlane.normal, Color.red, 1000f);
-        List<Vector2> topUVs = new List<Vector2>();
-        List<Vector2> bottomUVs = new List<Vector2>();
         for(int i = 0; i < mesh.triangles.Length; i += 3){
-            bool above = true;
-            for(int j = 0; j < 3; j++){
-                if(Vector3.Dot(slicingPlane.normal, mesh.vertices[mesh.triangles[i + j]]) > 0){
-                    above = false;
-                    break;
-                }
-            }
+            Vector3 triPos = (mesh.vertices[mesh.triangles[i]] + mesh.vertices[mesh.triangles[i + 1]] + mesh.vertices[mesh.triangles[i + 2]])/3;
+            float d = slicingPlane.GetDistanceToPoint(triPos);
 
-            if(above == true){
+            if(d > 0){
                 topTriangles.Add(mesh.vertices[mesh.triangles[i]]);
                 topTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
                 topTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
@@ -149,38 +143,33 @@ public class Slicing2D : MonoBehaviour
             }
 
         }
-
-        
-
         // Create new game objects for the top and bottom parts
         GameObject topPart = new GameObject("TopPart");
         GameObject bottomPart = new GameObject("BottomPart");
 
-        // Add MeshFilter and MeshRenderer components to the new game objects
         topPart.AddComponent<MeshFilter>();
         topPart.AddComponent<MeshRenderer>();
         bottomPart.AddComponent<MeshFilter>();
         bottomPart.AddComponent<MeshRenderer>();
 
-        // Create new meshes for the top and bottom parts
+        // Create new meshes and assign their triangles, UVs and verticies
         Mesh topMesh = new Mesh();
         Mesh bottomMesh = new Mesh();
 
-        // Assign vertices and triangles to the top mesh
         topMesh.vertices = topTriangles.ToArray();
         topMesh.triangles = Enumerable.Range(0, topTriangles.Count).ToArray();
         topMesh.RecalculateNormals();
 
-        // Assign vertices and triangles to the bottom mesh
         bottomMesh.vertices = bottomTriangles.ToArray();
         bottomMesh.triangles = Enumerable.Range(0, bottomTriangles.Count).ToArray();
         bottomMesh.RecalculateNormals();
 
-        // Assign the meshes to the MeshFilter components
         topPart.GetComponent<MeshFilter>().mesh = topMesh;
         bottomPart.GetComponent<MeshFilter>().mesh = bottomMesh;
 
-        // Optionally, set the same material as the original object
+        GenerateProjectedUVs(topMesh, mesh);
+        GenerateProjectedUVs(bottomMesh,mesh);
+
         topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
         bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
     }
@@ -190,21 +179,21 @@ public class Slicing2D : MonoBehaviour
 
         // get the edge that was not intersected by the straight blade
         (Vector3, Vector3) IntersectionlessEdge = (Vector3.zero, Vector3.zero);
-        (int, int)[] edges = new (int, int)[3];
+        (int, int) IntersectionlessEdgeIndex = (-1,-1);
         
         if(IsPointOnEdge(verts[0], verts[1], intersect1) == false && IsPointOnEdge(verts[0], verts[1], intersect2) == false){
             
             IntersectionlessEdge = (verts[0], verts[1]);
-            edges[2] = (0, 1);
+            IntersectionlessEdgeIndex = (0, 1);
         }
         else if(IsPointOnEdge(verts[1], verts[2], intersect1) == false && IsPointOnEdge(verts[1], verts[2], intersect2) == false){
             
             IntersectionlessEdge = (verts[1], verts[2]);
-            edges[2] = (1, 2);
+            IntersectionlessEdgeIndex = (1, 2);
         }
         else if(IsPointOnEdge(verts[2], verts[0], intersect1) == false && IsPointOnEdge(verts[2], verts[0], intersect2) == false){
             IntersectionlessEdge = (verts[2], verts[0]);
-            edges[2] = (2, 0);
+            IntersectionlessEdgeIndex = (2, 0);
         }
 
         // getting the connecting middle point for subdivision on the intersectionless edge
@@ -215,14 +204,11 @@ public class Slicing2D : MonoBehaviour
         var newVertices = new List<Vector3>(mesh.vertices);
         var newTriangles = new List<int>(mesh.triangles);
 
-        int baseTriangleIndex = 0;
-
         int basePoint0 = 0, basePoint1 = 0, basePoint2 = 0;
         for (int j = 0; j < mesh.triangles.Length; j += 3)
         {
-            if (vertices[mesh.triangles[j]] == verts[0] && vertices[mesh.triangles[j + 1]] == verts[1] && vertices[mesh.triangles[j + 2]] == verts[2])
+            if (mesh.vertices[mesh.triangles[j]] == verts[0] && mesh.vertices[mesh.triangles[j + 1]] == verts[1] && mesh.vertices[mesh.triangles[j + 2]] == verts[2])
             {
-                baseTriangleIndex = j;
                 basePoint0 = mesh.triangles[j];
                 basePoint1 = mesh.triangles[j + 1];
                 basePoint2 = mesh.triangles[j + 2];
@@ -244,9 +230,7 @@ public class Slicing2D : MonoBehaviour
         int intersect2Index = newVertices.Count - 1;
         // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
         // for each case, we have to draw the smaller triangles in a different way
-        if(edges[2] == (0, 1)){
-
-            print("0-1");
+        if(IntersectionlessEdgeIndex == (0, 1)){
             newTriangles.Add(basePoint0);
             newTriangles.Add(midPointIndex);
             newTriangles.Add(intersect2Index);
@@ -265,7 +249,7 @@ public class Slicing2D : MonoBehaviour
 
 
         }
-        else if(edges[2] == (1, 2)){
+        else if(IntersectionlessEdgeIndex == (1, 2)){
             newTriangles.Add(basePoint0);
             newTriangles.Add(intersect1Index);
             newTriangles.Add(intersect2Index);
@@ -286,7 +270,7 @@ public class Slicing2D : MonoBehaviour
             
             
         }
-        else if(edges[2] == (2, 0)){
+        else if(IntersectionlessEdgeIndex == (2, 0)){
             newTriangles.Add(intersect1Index);
             newTriangles.Add(basePoint1);
             newTriangles.Add(intersect2Index);
@@ -313,11 +297,31 @@ public class Slicing2D : MonoBehaviour
         
     }
 
-    void Update()
+    void GenerateProjectedUVs(Mesh mesh, Mesh baseMesh, float uvScale = 1f)
     {
-        mesh = obj.GetComponent<MeshFilter>().mesh;
-        vertices = mesh.vertices;
-        tri = mesh.triangles;
-    }
+        Vector3[] vertices = mesh.vertices;
+        Vector2[] uvs = new Vector2[vertices.Length];
 
+        // Compute min and max bounds
+        float minX = vertices.Min(v => v.x);
+        float maxX = vertices.Max(v => v.x);
+        float minY = vertices.Min(v => v.y);
+        float maxY = vertices.Max(v => v.y);
+
+        // Find the center of the shape
+        Vector3 center = baseMesh.bounds.center;
+        float centerX = center.x;
+        float centerY = center.y;
+
+        // Generate UVs based on world position, but offset by the shape’s center
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            float u = (vertices[i].x - centerX) * uvScale + 0.5f;
+            float v = (vertices[i].y - centerY) * uvScale + 0.5f;
+            uvs[i] = new Vector2(u, v);
+        }
+
+        // Apply UVs to the mesh
+        mesh.uv = uvs;
+    }
 }
