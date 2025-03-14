@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst.Intrinsics;
 using NUnit.Framework;
+using Unity.VisualScripting;
 
 public class Slicing2D : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class Slicing2D : MonoBehaviour
     public Mesh mesh;
     public Vector3 point1;
     public Vector3 point2;
+
+    public GameObject debug1;
+    public GameObject debug2;
     private List<Vector3> intersections = new List<Vector3>();
     private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
@@ -29,24 +33,33 @@ public class Slicing2D : MonoBehaviour
 
     void cut(){
         getIntersectionPoints(point1, point2, mesh.triangles);
+
         if(isIntersected == true){
             splitMesh(mesh, slicingPlane);
         }
         Destroy(obj);
     }
-
-    
-
     Vector3 findLineIntersectionOnPlane(Vector3 v1, Vector3 v2, Vector3 planeNormal, float D){
         float A = planeNormal.x;
         float B = planeNormal.z;
         float C = planeNormal.y;
         
-        float t = -(A * v1.x + B * v1.z + C * v1.y + D) / (A * (v2.x - v1.x) + B * (v2.z - v1.z) + C * (v2.y - v1.y));
+        
+        float d = A * (v2.x - v1.x) + B * (v2.z - v1.z) + C * (v2.y - v1.y);
+
+        if(Mathf.Abs(d) < 1e-6f){
+            return Vector3.forward;
+        }
+
+        float n = -(A * v1.x + B * v1.z + C * v1.y + D);
+        float t = n/d;
+
         if (t < 0 || t > 1)
         {
             return Vector3.forward;
         }
+
+        print(t);
 
         float x = v1.x + t * (v2.x - v1.x);
         float y = v1.z + t * (v2.z - v1.z); 
@@ -170,12 +183,20 @@ public class Slicing2D : MonoBehaviour
         GenerateProjectedUVs(topMesh, mesh);
         GenerateProjectedUVs(bottomMesh,mesh);
 
+        topPart.transform.position += obj.transform.position;
+        bottomPart.transform.position += obj.transform.position;
+
         topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
         bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
     }
         
 
     void SplitTriangle(Mesh mesh, Vector3[] verts, Vector3 intersect1, Vector3 intersect2){
+
+        if(IsVector3NaN(intersect1) || IsVector3NaN(intersect2)){
+            return;
+        }
+
 
         // get the edge that was not intersected by the straight blade
         (Vector3, Vector3) IntersectionlessEdge = (Vector3.zero, Vector3.zero);
@@ -218,11 +239,11 @@ public class Slicing2D : MonoBehaviour
             }
         }
 
+
         // add the new verticies and remember where we stored them
         newVertices.Add(midPoint);
         int midPointIndex = newVertices.Count - 1;
-
-
+        
         newVertices.Add(intersect1);
         int intersect1Index = newVertices.Count - 1;
 
@@ -321,7 +342,15 @@ public class Slicing2D : MonoBehaviour
             uvs[i] = new Vector2(u, v);
         }
 
-        // Apply UVs to the mesh
+        // Apply UVs to
         mesh.uv = uvs;
+
+        
     }
+
+    bool IsVector3NaN(Vector3 v)
+    {
+        return float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z);
+    }
+
 }
