@@ -11,11 +11,6 @@ public class Slicing2D : MonoBehaviour
    
     public GameObject obj;
     public Mesh mesh;
-    public Vector3 point1;
-    public Vector3 point2;
-
-    public GameObject debug1;
-    public GameObject debug2;
     private List<Vector3> intersections = new List<Vector3>();
     private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
@@ -23,43 +18,39 @@ public class Slicing2D : MonoBehaviour
     private List<Vector3> topTriangles = new List<Vector3>();
     private List<Vector3> bottomTriangles = new List<Vector3>();
     bool isIntersected = false;
-
-    public List<Vector2> uvs = new List<Vector2>();
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
-        cut();
     }
 
-    void cut(){
-        getIntersectionPoints(point1, point2, mesh.triangles);
+    public void cut(Vector3 point1, Vector3 point2){
+        Vector3 p1 = obj.transform.InverseTransformPoint(point1);
+        Vector3 p2 = obj.transform.InverseTransformPoint(point2);
+        getIntersectionPoints(p1, p2, mesh.triangles);
 
         if(isIntersected == true){
             splitMesh(mesh, slicingPlane);
+            Destroy(obj);
         }
-        Destroy(obj);
     }
     Vector3 findLineIntersectionOnPlane(Vector3 v1, Vector3 v2, Vector3 planeNormal, float D){
         float A = planeNormal.x;
         float B = planeNormal.z;
         float C = planeNormal.y;
         
-        
         float d = A * (v2.x - v1.x) + B * (v2.z - v1.z) + C * (v2.y - v1.y);
 
-        if(Mathf.Abs(d) < 1e-6f){
+        if(Mathf.Abs(d) == 0){
             return Vector3.forward;
         }
 
         float n = -(A * v1.x + B * v1.z + C * v1.y + D);
         float t = n/d;
 
-        if (t < 0 || t > 1)
+        if (t <= 0 || t >= 1)
         {
             return Vector3.forward;
         }
-
-        print(t);
 
         float x = v1.x + t * (v2.x - v1.x);
         float y = v1.z + t * (v2.z - v1.z); 
@@ -71,6 +62,25 @@ public class Slicing2D : MonoBehaviour
     void getIntersectionPoints(Vector3 p1, Vector3 p2, int[] triangles){
         Vector3 planeNormal = Vector3.Cross(p1- p2, Vector3.forward).normalized;
         slicingPlane = new Plane(planeNormal, p1);
+
+        bool oneAbove = false;
+        bool oneBelow = false;
+        for(int i = 0; i < mesh.vertices.Length; i++){
+            if(oneAbove == true && oneBelow == true){
+                break;
+            }
+
+            if(slicingPlane.GetDistanceToPoint(mesh.vertices[i]) >= 0) {
+                oneAbove = true;
+            } else{
+                oneBelow = true;
+            }
+
+        }
+
+        if(oneAbove == true && oneBelow == true){
+            isIntersected = true;
+        }
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
@@ -104,20 +114,15 @@ public class Slicing2D : MonoBehaviour
             }
 
             if(i_v1 != Vector3.forward || i_v2 != Vector3.forward || i_v3 != Vector3.forward){
+                // Handle the case where at least one intersection point is valid
                 intersectedTriangles.Add(i);
                 intersectedTriangles.Add(i + 1);
                 intersectedTriangles.Add(i + 2);
             }
             if(localIntersects.Count > 0){
-                isIntersected = true;
                 SplitTriangle(mesh, CurrentTriangle.ToArray(), localIntersects[0], localIntersects[1]);
             }
-            
         }
-        
-
-        
-
     }
 
     bool IsPointOnEdge(Vector3 A, Vector3 B, Vector3 P)
@@ -188,16 +193,13 @@ public class Slicing2D : MonoBehaviour
 
         topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
         bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
+
+        topPart.AddComponent<MeshCollider>().sharedMesh = topMesh;
+        bottomPart.AddComponent<MeshCollider>().sharedMesh = bottomMesh;
     }
         
 
     void SplitTriangle(Mesh mesh, Vector3[] verts, Vector3 intersect1, Vector3 intersect2){
-
-        if(IsVector3NaN(intersect1) || IsVector3NaN(intersect2)){
-            return;
-        }
-
-
         // get the edge that was not intersected by the straight blade
         (Vector3, Vector3) IntersectionlessEdge = (Vector3.zero, Vector3.zero);
         (int, int) IntersectionlessEdgeIndex = (-1,-1);
@@ -239,7 +241,6 @@ public class Slicing2D : MonoBehaviour
             }
         }
 
-
         // add the new verticies and remember where we stored them
         newVertices.Add(midPoint);
         int midPointIndex = newVertices.Count - 1;
@@ -249,6 +250,7 @@ public class Slicing2D : MonoBehaviour
 
         newVertices.Add(intersect2);
         int intersect2Index = newVertices.Count - 1;
+
         // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
         // for each case, we have to draw the smaller triangles in a different way
         if(IntersectionlessEdgeIndex == (0, 1)){
@@ -296,7 +298,6 @@ public class Slicing2D : MonoBehaviour
             newTriangles.Add(basePoint1);
             newTriangles.Add(intersect2Index);
             
-
             newTriangles.Add(basePoint0);
             newTriangles.Add(intersect1Index);
             newTriangles.Add(midPointIndex);
@@ -315,7 +316,6 @@ public class Slicing2D : MonoBehaviour
         mesh.vertices = newVertices.ToArray();
         mesh.triangles = newTriangles.ToArray();
         mesh.RecalculateNormals();
-        
     }
 
     void GenerateProjectedUVs(Mesh mesh, Mesh baseMesh, float uvScale = 1f)
@@ -323,34 +323,21 @@ public class Slicing2D : MonoBehaviour
         Vector3[] vertices = mesh.vertices;
         Vector2[] uvs = new Vector2[vertices.Length];
 
-        // Compute min and max bounds
-        float minX = vertices.Min(v => v.x);
-        float maxX = vertices.Max(v => v.x);
-        float minY = vertices.Min(v => v.y);
-        float maxY = vertices.Max(v => v.y);
+        // Use base mesh bounds for UV normalization
+        Bounds bounds = baseMesh.bounds;
+        float minX = bounds.min.x;
+        float maxX = bounds.max.x;
+        float minY = bounds.min.y;
+        float maxY = bounds.max.y;
 
-        // Find the center of the shape
-        Vector3 center = baseMesh.bounds.center;
-        float centerX = center.x;
-        float centerY = center.y;
-
-        // Generate UVs based on world position, but offset by the shape’s center
+        // Generate UVs normalized within [0,1] and scaled
         for (int i = 0; i < vertices.Length; i++)
         {
-            float u = (vertices[i].x - centerX) * uvScale + 0.5f;
-            float v = (vertices[i].y - centerY) * uvScale + 0.5f;
+            float u = (vertices[i].x - minX) / (maxX - minX) * uvScale;
+            float v = (vertices[i].y - minY) / (maxY - minY) * uvScale;
             uvs[i] = new Vector2(u, v);
         }
 
-        // Apply UVs to
         mesh.uv = uvs;
-
-        
     }
-
-    bool IsVector3NaN(Vector3 v)
-    {
-        return float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z);
-    }
-
 }
