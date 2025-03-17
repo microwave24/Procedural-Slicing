@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\2Dslicing.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Grabbing.cs" />
+    <Compile Include="Assets\Scripts\3Dslicing.cs" />
     <Compile Include="Assets\Scripts\Slicer.cs" />
   </ItemGroup>
   <ItemGroup>
