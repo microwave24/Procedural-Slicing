@@ -18,19 +18,33 @@ public class Slicing2D : MonoBehaviour
     private List<Vector3> topTriangles = new List<Vector3>();
     private List<Vector3> bottomTriangles = new List<Vector3>();
     bool isIntersected = false;
+
+    List<Vector3> newVertices = new List<Vector3>();
+    List<int> newTriangles = new List<int>();
+
+    public List<Vector3> v_debug_b = new List<Vector3>();
+    public List<Vector3> v_debug = new List<Vector3>();
+
+
+    public GameObject debug1;
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
+        v_debug_b =  mesh.vertices.ToList<Vector3>();
+        newVertices = mesh.vertices.ToList<Vector3>();
+        newTriangles = mesh.triangles.ToList<int>();
     }
 
     public void cut(Vector3 point1, Vector3 point2){
         Vector3 p1 = obj.transform.InverseTransformPoint(point1);
         Vector3 p2 = obj.transform.InverseTransformPoint(point2);
+
         getIntersectionPoints(p1, p2, mesh.triangles);
+        v_debug = mesh.vertices.ToList<Vector3>();
 
         if(isIntersected == true){
             splitMesh(mesh, slicingPlane);
-            Destroy(obj);
+            //Destroy(obj);
         }
     }
     Vector3 findLineIntersectionOnPlane(Vector3 v1, Vector3 v2, Vector3 planeNormal, float D){
@@ -159,7 +173,7 @@ public class Slicing2D : MonoBehaviour
                 bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
                 bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
             }
-
+            
         }
         // Create new game objects for the top and bottom parts
         GameObject topPart = new GameObject("TopPart");
@@ -174,6 +188,8 @@ public class Slicing2D : MonoBehaviour
         Mesh topMesh = new Mesh();
         Mesh bottomMesh = new Mesh();
 
+
+        /// ITS THIS PART HERE THATS FUCKING UP,s
         topMesh.vertices = topTriangles.ToArray();
         topMesh.triangles = Enumerable.Range(0, topTriangles.Count).ToArray();
         topMesh.RecalculateNormals();
@@ -188,8 +204,15 @@ public class Slicing2D : MonoBehaviour
         GenerateProjectedUVs(topMesh, mesh);
         GenerateProjectedUVs(bottomMesh,mesh);
 
+        for(int i = 0; i < topMesh.vertexCount; i++){
+            //Instantiate(debug1, topMesh.vertices[i], Quaternion.identity);
+        }
+
         topPart.transform.position += obj.transform.position;
         bottomPart.transform.position += obj.transform.position;
+
+        print(topMesh.vertexCount);
+        print(bottomMesh.vertexCount);
 
         topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
         bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
@@ -224,8 +247,7 @@ public class Slicing2D : MonoBehaviour
         midPoint = new Vector3(midPoint.x, midPoint.y, midPoint.z);
         
         // triangle filling
-        var newVertices = new List<Vector3>(mesh.vertices);
-        var newTriangles = new List<int>(mesh.triangles);
+        
 
         int basePoint0 = 0, basePoint1 = 0, basePoint2 = 0;
         for (int j = 0; j < mesh.triangles.Length; j += 3)
@@ -242,14 +264,12 @@ public class Slicing2D : MonoBehaviour
         }
 
         // add the new verticies and remember where we stored them
-        newVertices.Add(midPoint);
-        int midPointIndex = newVertices.Count - 1;
-        
-        newVertices.Add(intersect1);
-        int intersect1Index = newVertices.Count - 1;
 
-        newVertices.Add(intersect2);
-        int intersect2Index = newVertices.Count - 1;
+
+        
+        int midPointIndex = GetOrAddVertexIndex(newVertices, midPoint);
+        int intersect1Index = GetOrAddVertexIndex(newVertices, intersect1);
+        int intersect2Index = GetOrAddVertexIndex(newVertices, intersect2);
 
         // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
         // for each case, we have to draw the smaller triangles in a different way
@@ -339,5 +359,18 @@ public class Slicing2D : MonoBehaviour
         }
 
         mesh.uv = uvs;
+    }
+
+    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.001f)
+    {
+        for (int i = 0; i < vertices.Count; i++)
+        {
+            if (Vector3.Distance(vertices[i], vertex) < tolerance)
+            {
+                return i;
+            }
+        }
+        vertices.Add(vertex);
+        return vertices.Count - 1;
     }
 }

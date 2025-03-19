@@ -5,6 +5,9 @@ using System.Linq;
 using Unity.Burst.Intrinsics;
 using NUnit.Framework;
 using Unity.VisualScripting;
+// using System.Numerics; // Removed to avoid conflict with UnityEngine types
+
+
 
 public class Slicing3D : MonoBehaviour
 {
@@ -322,6 +325,9 @@ public class Slicing3D : MonoBehaviour
         GenerateProjectedUVs(topMesh, mesh);
         GenerateProjectedUVs(bottomMesh,mesh);
 
+        fill(topMesh, slicingPlane);
+        //fill(bottomMesh, slicingPlane);
+
         topPart.transform.position += obj.transform.position;
         bottomPart.transform.position += obj.transform.position;
 
@@ -378,6 +384,47 @@ public class Slicing3D : MonoBehaviour
 
         mesh.uv = uvs;
     }
+
+    void fill(Mesh mesh, Plane slicingPlane){
+
+        List<Vector3> edgeVerticies = new List<Vector3>();
+
+        Vector3 center = Vector3.zero;
+        for(int i = 0; i < mesh.vertexCount; i++){
+            Instantiate(debug1, mesh.vertices[i], Quaternion.identity);
+            if(Mathf.Abs(slicingPlane.GetDistanceToPoint(mesh.vertices[i])) < 0.0001f){
+                edgeVerticies.Add(mesh.vertices[i]);
+                center += mesh.vertices[i];
+                
+            }
+        }
+
+        center = center/edgeVerticies.Count;
+        SortClockwise(edgeVerticies, slicingPlane, center);
+
+        for(int i = 0; i < edgeVerticies.Count; i++){
+            //Instantiate(debug1, edgeVerticies[i], Quaternion.identity);
+        }
+    }
+
+    List<Vector3> SortClockwise(List<Vector3> vertices, Plane slicingPlane, Vector3 center)
+    {
+        List<Vector3> projectedVertices = vertices.Select(v => ProjectOntoPlane(v, slicingPlane)).ToList();
+
+        return projectedVertices
+            .OrderByDescending(v => Mathf.Atan2(v.y - center.y, v.x - center.x)) // Angle sorting in 2D (clockwise)
+            .Select(v => vertices[projectedVertices.IndexOf(v)]) // Re-map to the original 3D vertices
+            .ToList();
+    }
+
+    // Helper function to project a point onto the plane
+    Vector3 ProjectOntoPlane(Vector3 point, Plane plane)
+    {
+        float distance = plane.GetDistanceToPoint(point); // Distance from point to plane
+        return point - plane.normal * distance; // Project the point onto the plane
+    }
+
+
 
 
 }
