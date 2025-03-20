@@ -5,6 +5,9 @@ using System.Linq;
 using Unity.Burst.Intrinsics;
 using NUnit.Framework;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
+using Unity.Mathematics;
+using NUnit.Framework.Internal.Filters;
 // using System.Numerics; // Removed to avoid conflict with UnityEngine types
 
 
@@ -18,8 +21,11 @@ public class Slicing3D : MonoBehaviour
     private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
 
-    private List<Vector3> topTriangles = new List<Vector3>();
-    private List<Vector3> bottomTriangles = new List<Vector3>();
+    List<Vector3> topVerticies = new List<Vector3>();
+    List<Vector3> bottomVerticies = new List<Vector3>();
+
+    List<int> topTriangles = new List<int>();
+    List<int> bottomTriangles = new List<int>();
     bool isIntersected = false;
 
     public Transform p1, p2, p3;
@@ -33,6 +39,8 @@ public class Slicing3D : MonoBehaviour
         if(isIntersected == true){
             splitMesh(mesh, slicingPlane);
             Destroy(obj);
+
+            
         }
     }
 
@@ -281,22 +289,37 @@ public class Slicing3D : MonoBehaviour
 
     void splitMesh(Mesh mesh, Plane slicingPlane)
     {
-        Debug.DrawRay(Vector3.zero, slicingPlane.normal, Color.red, 1000f);
-        for(int i = 0; i < mesh.triangles.Length; i += 3){
-            Vector3 triPos = (mesh.vertices[mesh.triangles[i]] + mesh.vertices[mesh.triangles[i + 1]] + mesh.vertices[mesh.triangles[i + 2]])/3;
+        
+
+        for (int i = 0; i < mesh.triangles.Length; i += 3)
+        {
+            Vector3 v1 = mesh.vertices[mesh.triangles[i]];
+            Vector3 v2 = mesh.vertices[mesh.triangles[i + 1]];
+            Vector3 v3 = mesh.vertices[mesh.triangles[i + 2]];
+
+            Vector3 triPos = (v1 + v2 + v3) / 3;
             float d = slicingPlane.GetDistanceToPoint(triPos);
 
-            if(d > 0){
-                topTriangles.Add(mesh.vertices[mesh.triangles[i]]);
-                topTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
-                topTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
-            }
-            else{
-                bottomTriangles.Add(mesh.vertices[mesh.triangles[i]]);
-                bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
-                bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
-            }
+            if (d > 0)
+            {
+                int i1 = GetOrAddVertexIndex(topVerticies, v1);
+                int i2 = GetOrAddVertexIndex(topVerticies, v2);
+                int i3 = GetOrAddVertexIndex(topVerticies, v3);
 
+                topTriangles.Add(i1);
+                topTriangles.Add(i2);
+                topTriangles.Add(i3);
+            }
+            else
+            {
+                int i1 = GetOrAddVertexIndex(bottomVerticies, v1);
+                int i2 = GetOrAddVertexIndex(bottomVerticies, v2);
+                int i3 = GetOrAddVertexIndex(bottomVerticies, v3);
+
+                bottomTriangles.Add(i1);
+                bottomTriangles.Add(i2);
+                bottomTriangles.Add(i3);
+            }
         }
         // Create new game objects for the top and bottom parts
         GameObject topPart = new GameObject("TopPart");
@@ -311,12 +334,14 @@ public class Slicing3D : MonoBehaviour
         Mesh topMesh = new Mesh();
         Mesh bottomMesh = new Mesh();
 
-        topMesh.vertices = topTriangles.ToArray();
-        topMesh.triangles = Enumerable.Range(0, topTriangles.Count).ToArray();
+
+        /// ITS THIS PART HERE THATS FUCKING UP,s
+        topMesh.vertices = topVerticies.ToArray();
+        topMesh.triangles = topTriangles.ToArray();
         topMesh.RecalculateNormals();
 
-        bottomMesh.vertices = bottomTriangles.ToArray();
-        bottomMesh.triangles = Enumerable.Range(0, bottomTriangles.Count).ToArray();
+        bottomMesh.vertices = bottomVerticies.ToArray();
+        bottomMesh.triangles = bottomTriangles.ToArray();
         bottomMesh.RecalculateNormals();
 
         topPart.GetComponent<MeshFilter>().mesh = topMesh;
@@ -324,9 +349,6 @@ public class Slicing3D : MonoBehaviour
 
         GenerateProjectedUVs(topMesh, mesh);
         GenerateProjectedUVs(bottomMesh,mesh);
-
-        fill(topMesh, slicingPlane);
-        //fill(bottomMesh, slicingPlane);
 
         topPart.transform.position += obj.transform.position;
         bottomPart.transform.position += obj.transform.position;
@@ -336,6 +358,10 @@ public class Slicing3D : MonoBehaviour
 
         topPart.AddComponent<MeshCollider>().sharedMesh = topMesh;
         bottomPart.AddComponent<MeshCollider>().sharedMesh = bottomMesh;
+
+        fill(topMesh, slicingPlane);
+        //fill(bottomMesh, slicingPlane);
+        Destroy(bottomPart);
     }
 
     void GenerateProjectedUVs(Mesh mesh, Mesh baseMesh, float uvScale = 1f)
@@ -387,44 +413,97 @@ public class Slicing3D : MonoBehaviour
 
     void fill(Mesh mesh, Plane slicingPlane){
 
-        List<Vector3> edgeVerticies = new List<Vector3>();
+        List<(Vector3, int)> edgeVerticies = new List<(Vector3, int)>(); 
+        List<int> edgeIndecies = new List<int>(); // this will hold the indicies of the sorted
 
         Vector3 center = Vector3.zero;
         for(int i = 0; i < mesh.vertexCount; i++){
-            Instantiate(debug1, mesh.vertices[i], Quaternion.identity);
-            if(Mathf.Abs(slicingPlane.GetDistanceToPoint(mesh.vertices[i])) < 0.0001f){
-                edgeVerticies.Add(mesh.vertices[i]);
+
+            float d = Mathf.Abs(slicingPlane.GetDistanceToPoint(mesh.vertices[i]));
+            
+            if(d < 0.000001f){
+                edgeVerticies.Add((mesh.vertices[i], i));
                 center += mesh.vertices[i];
-                
             }
         }
 
         center = center/edgeVerticies.Count;
-        SortClockwise(edgeVerticies, slicingPlane, center);
+        edgeIndecies = SortClockwise(edgeVerticies, slicingPlane, center);
 
-        for(int i = 0; i < edgeVerticies.Count; i++){
-            //Instantiate(debug1, edgeVerticies[i], Quaternion.identity);
+        List<Vector3> newVertices = new List<Vector3>();
+        newVertices = mesh.vertices.ToList<Vector3>();
+        
+        List<int> newTriangles = new List<int>();
+        newTriangles = mesh.triangles.ToList<int>();
+
+        int centralVertex = GetOrAddVertexIndex(newVertices, center);
+
+        int n_triangles = edgeIndecies.Count;
+
+        for(int i = 0; i < n_triangles; i++){
+            if(i + 1 == n_triangles){
+                newTriangles.Add(edgeIndecies[i]);
+                newTriangles.Add(centralVertex);
+                newTriangles.Add(edgeIndecies[0]);
+            } else {
+                newTriangles.Add(edgeIndecies[i]);
+                newTriangles.Add(centralVertex);
+                newTriangles.Add(edgeIndecies[i+1]);
+            }
+
         }
+        mesh.Clear();
+        mesh.vertices = newVertices.ToArray();
+        mesh.triangles = newTriangles.ToArray();
+        mesh.RecalculateNormals();
     }
 
-    List<Vector3> SortClockwise(List<Vector3> vertices, Plane slicingPlane, Vector3 center)
+    List<int> SortClockwise(List<(Vector3, int)> vertices, Plane slicingPlane, Vector3 center)
     {
-        List<Vector3> projectedVertices = vertices.Select(v => ProjectOntoPlane(v, slicingPlane)).ToList();
+        Vector3 baseVector = (vertices[0].Item1 - center).normalized;
 
-        return projectedVertices
-            .OrderByDescending(v => Mathf.Atan2(v.y - center.y, v.x - center.x)) // Angle sorting in 2D (clockwise)
-            .Select(v => vertices[projectedVertices.IndexOf(v)]) // Re-map to the original 3D vertices
-            .ToList();
+        List<(Vector3 vertex, float angle, int index)> angles = new List<(Vector3, float, int)>();
+
+        for(int i = 0; i < vertices.Count; i++){
+            Vector3 relativeVector = (vertices[i].Item1 - center).normalized;
+            float dot = Vector3.Dot(baseVector, relativeVector);
+            float angle = Mathf.Acos(dot);
+
+            Vector3 cross = Vector3.Cross(baseVector, relativeVector);
+            if (Vector3.Dot(cross, slicingPlane.normal) < 0)
+            {
+                angle = (2 * math.PI) - angle;  // Ensure angle is in 0-360 range
+            }
+
+            angles.Add((vertices[i].Item1, angle, vertices[i].Item2));
+
+
+        }
+
+        angles.Sort((a, b) => a.angle.CompareTo(b.angle));
+
+        List<int> output = new List<int>();
+        for(int i = 0; i < angles.Count; i++){
+            output.Add(angles[i].index);
+        }
+
+        return output;
     }
 
-    // Helper function to project a point onto the plane
-    Vector3 ProjectOntoPlane(Vector3 point, Plane plane)
+    
+
+    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.0001f)
     {
-        float distance = plane.GetDistanceToPoint(point); // Distance from point to plane
-        return point - plane.normal * distance; // Project the point onto the plane
+        for (int i = 0; i < vertices.Count; i++)
+        {
+            if (Vector3.Distance(vertices[i], vertex) < tolerance)
+            {
+                return i;
+                
+            }
+        }
+        vertices.Add(vertex);
+        return vertices.Count - 1;
     }
-
-
-
 
 }

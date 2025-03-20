@@ -15,12 +15,17 @@ public class Slicing2D : MonoBehaviour
     private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
 
-    private List<Vector3> topTriangles = new List<Vector3>();
-    private List<Vector3> bottomTriangles = new List<Vector3>();
+    
     bool isIntersected = false;
 
     List<Vector3> newVertices = new List<Vector3>();
     List<int> newTriangles = new List<int>();
+
+    List<Vector3> topVerticies = new List<Vector3>();
+    List<Vector3> bottomVerticies = new List<Vector3>();
+
+    List<int> topTriangles = new List<int>();
+    List<int> bottomTriangles = new List<int>();
 
     public List<Vector3> v_debug_b = new List<Vector3>();
     public List<Vector3> v_debug = new List<Vector3>();
@@ -158,22 +163,37 @@ public class Slicing2D : MonoBehaviour
 
     void splitMesh(Mesh mesh, Plane slicingPlane)
     {
-        Debug.DrawRay(Vector3.zero, slicingPlane.normal, Color.red, 1000f);
-        for(int i = 0; i < mesh.triangles.Length; i += 3){
-            Vector3 triPos = (mesh.vertices[mesh.triangles[i]] + mesh.vertices[mesh.triangles[i + 1]] + mesh.vertices[mesh.triangles[i + 2]])/3;
+        
+
+        for (int i = 0; i < mesh.triangles.Length; i += 3)
+        {
+            Vector3 v1 = mesh.vertices[mesh.triangles[i]];
+            Vector3 v2 = mesh.vertices[mesh.triangles[i + 1]];
+            Vector3 v3 = mesh.vertices[mesh.triangles[i + 2]];
+
+            Vector3 triPos = (v1 + v2 + v3) / 3;
             float d = slicingPlane.GetDistanceToPoint(triPos);
 
-            if(d > 0){
-                topTriangles.Add(mesh.vertices[mesh.triangles[i]]);
-                topTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
-                topTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
+            if (d > 0)
+            {
+                int i1 = GetOrAddVertexIndex(topVerticies, v1);
+                int i2 = GetOrAddVertexIndex(topVerticies, v2);
+                int i3 = GetOrAddVertexIndex(topVerticies, v3);
+
+                topTriangles.Add(i1);
+                topTriangles.Add(i2);
+                topTriangles.Add(i3);
             }
-            else{
-                bottomTriangles.Add(mesh.vertices[mesh.triangles[i]]);
-                bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 1]]);
-                bottomTriangles.Add(mesh.vertices[mesh.triangles[i + 2]]);
+            else
+            {
+                int i1 = GetOrAddVertexIndex(bottomVerticies, v1);
+                int i2 = GetOrAddVertexIndex(bottomVerticies, v2);
+                int i3 = GetOrAddVertexIndex(bottomVerticies, v3);
+
+                bottomTriangles.Add(i1);
+                bottomTriangles.Add(i2);
+                bottomTriangles.Add(i3);
             }
-            
         }
         // Create new game objects for the top and bottom parts
         GameObject topPart = new GameObject("TopPart");
@@ -190,12 +210,12 @@ public class Slicing2D : MonoBehaviour
 
 
         /// ITS THIS PART HERE THATS FUCKING UP,s
-        topMesh.vertices = topTriangles.ToArray();
-        topMesh.triangles = Enumerable.Range(0, topTriangles.Count).ToArray();
+        topMesh.vertices = topVerticies.ToArray();
+        topMesh.triangles = topTriangles.ToArray();
         topMesh.RecalculateNormals();
 
-        bottomMesh.vertices = bottomTriangles.ToArray();
-        bottomMesh.triangles = Enumerable.Range(0, bottomTriangles.Count).ToArray();
+        bottomMesh.vertices = bottomVerticies.ToArray();
+        bottomMesh.triangles = bottomTriangles.ToArray();
         bottomMesh.RecalculateNormals();
 
         topPart.GetComponent<MeshFilter>().mesh = topMesh;
@@ -204,15 +224,8 @@ public class Slicing2D : MonoBehaviour
         GenerateProjectedUVs(topMesh, mesh);
         GenerateProjectedUVs(bottomMesh,mesh);
 
-        for(int i = 0; i < topMesh.vertexCount; i++){
-            //Instantiate(debug1, topMesh.vertices[i], Quaternion.identity);
-        }
-
         topPart.transform.position += obj.transform.position;
         bottomPart.transform.position += obj.transform.position;
-
-        print(topMesh.vertexCount);
-        print(bottomMesh.vertexCount);
 
         topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
         bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
@@ -361,13 +374,14 @@ public class Slicing2D : MonoBehaviour
         mesh.uv = uvs;
     }
 
-    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.001f)
+    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.0001f)
     {
         for (int i = 0; i < vertices.Count; i++)
         {
             if (Vector3.Distance(vertices[i], vertex) < tolerance)
             {
                 return i;
+                
             }
         }
         vertices.Add(vertex);
