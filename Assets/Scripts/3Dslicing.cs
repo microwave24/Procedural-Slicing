@@ -31,6 +31,8 @@ public class Slicing3D : MonoBehaviour
     public Transform p1, p2, p3;
     public GameObject debug1;
 
+    public Material crossSectionMaterial;
+
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
@@ -335,7 +337,6 @@ public class Slicing3D : MonoBehaviour
         Mesh bottomMesh = new Mesh();
 
 
-        /// ITS THIS PART HERE THATS FUCKING UP,s
         topMesh.vertices = topVerticies.ToArray();
         topMesh.triangles = topTriangles.ToArray();
         topMesh.RecalculateNormals();
@@ -359,9 +360,13 @@ public class Slicing3D : MonoBehaviour
         topPart.AddComponent<MeshCollider>().sharedMesh = topMesh;
         bottomPart.AddComponent<MeshCollider>().sharedMesh = bottomMesh;
 
-        fill(topMesh, slicingPlane);
-        //fill(bottomMesh, slicingPlane);
-        Destroy(bottomPart);
+        fill(topMesh, slicingPlane, crossSectionMaterial, topPart, true);
+        fill(bottomMesh, slicingPlane, crossSectionMaterial, bottomPart, false);
+
+        for(int i = 0; i < topMesh.vertexCount; i++){
+            //Instantiate(debug1, topMesh.vertices[i], Quaternion.identity);
+        }
+
     }
 
     void GenerateProjectedUVs(Mesh mesh, Mesh baseMesh, float uvScale = 1f)
@@ -411,10 +416,9 @@ public class Slicing3D : MonoBehaviour
         mesh.uv = uvs;
     }
 
-    void fill(Mesh mesh, Plane slicingPlane){
+    void fill(Mesh mesh, Plane slicingPlane, Material crossMaterial, GameObject slicedObj, bool isTopSlice){
 
-        List<(Vector3, int)> edgeVerticies = new List<(Vector3, int)>(); 
-        List<int> edgeIndecies = new List<int>(); // this will hold the indicies of the sorted
+        List<Vector3> edgeVerticies = new List<Vector3>(); 
 
         Vector3 center = Vector3.zero;
         for(int i = 0; i < mesh.vertexCount; i++){
@@ -422,50 +426,79 @@ public class Slicing3D : MonoBehaviour
             float d = Mathf.Abs(slicingPlane.GetDistanceToPoint(mesh.vertices[i]));
             
             if(d < 0.000001f){
-                edgeVerticies.Add((mesh.vertices[i], i));
+                edgeVerticies.Add(mesh.vertices[i]);
                 center += mesh.vertices[i];
             }
         }
 
-        center = center/edgeVerticies.Count;
-        edgeIndecies = SortClockwise(edgeVerticies, slicingPlane, center);
+        center /= edgeVerticies.Count;
+        SortClockwise(edgeVerticies, slicingPlane, center);
 
-        List<Vector3> newVertices = new List<Vector3>();
-        newVertices = mesh.vertices.ToList<Vector3>();
         
-        List<int> newTriangles = new List<int>();
-        newTriangles = mesh.triangles.ToList<int>();
+        edgeVerticies.Add(center);
+        int centerIndex = edgeVerticies.Count - 1;
 
-        int centralVertex = GetOrAddVertexIndex(newVertices, center);
 
-        int n_triangles = edgeIndecies.Count;
+        List<int> crossTriangles = new List<int>();
 
-        for(int i = 0; i < n_triangles; i++){
-            if(i + 1 == n_triangles){
-                newTriangles.Add(edgeIndecies[i]);
-                newTriangles.Add(centralVertex);
-                newTriangles.Add(edgeIndecies[0]);
-            } else {
-                newTriangles.Add(edgeIndecies[i]);
-                newTriangles.Add(centralVertex);
-                newTriangles.Add(edgeIndecies[i+1]);
+        if(isTopSlice == true){
+            for(int i = 0; i < edgeVerticies.Count - 1; i++){
+                if(i + 1 == edgeVerticies.Count - 1){
+                    crossTriangles.Add(i);
+                    crossTriangles.Add(centerIndex);
+                    crossTriangles.Add(0);
+                } else{
+                    crossTriangles.Add(i);
+                    crossTriangles.Add(centerIndex);
+                    crossTriangles.Add(i + 1);
+                }
             }
-
+        } else{
+            for(int i = 0; i < edgeVerticies.Count - 1; i++){
+                if(i + 1 == edgeVerticies.Count - 1){
+                    crossTriangles.Add(i);
+                    crossTriangles.Add(0);
+                    crossTriangles.Add(centerIndex);
+                    
+                } else{
+                    crossTriangles.Add(i);
+                    crossTriangles.Add(i + 1);
+                    crossTriangles.Add(centerIndex);
+                    
+                }
+            }
         }
-        mesh.Clear();
-        mesh.vertices = newVertices.ToArray();
-        mesh.triangles = newTriangles.ToArray();
-        mesh.RecalculateNormals();
+
+        
+
+
+        GameObject crossPart = new GameObject("Cross-section");
+        crossPart.AddComponent<MeshFilter>();
+        crossPart.AddComponent<MeshRenderer>();
+
+        Mesh crossMesh = new Mesh();
+
+        crossMesh.vertices = edgeVerticies.ToArray();
+        crossMesh.triangles = crossTriangles.ToArray();
+        crossMesh.RecalculateNormals();
+        crossPart.GetComponent<MeshFilter>().mesh = crossMesh;
+        crossPart.GetComponent<MeshRenderer>().material = crossMaterial;
+        crossPart.transform.position = slicedObj.transform.position;
+        crossPart.transform.parent = slicedObj.transform;
+
+
+
+        
     }
 
-    List<int> SortClockwise(List<(Vector3, int)> vertices, Plane slicingPlane, Vector3 center)
+    void SortClockwise(List<Vector3> vertices, Plane slicingPlane, Vector3 center)
     {
-        Vector3 baseVector = (vertices[0].Item1 - center).normalized;
+        Vector3 baseVector = (vertices[0] - center).normalized;
 
-        List<(Vector3 vertex, float angle, int index)> angles = new List<(Vector3, float, int)>();
+        List<(Vector3 vertex, float angle)> angles = new List<(Vector3, float)>();
 
         for(int i = 0; i < vertices.Count; i++){
-            Vector3 relativeVector = (vertices[i].Item1 - center).normalized;
+            Vector3 relativeVector = (vertices[i] - center).normalized;
             float dot = Vector3.Dot(baseVector, relativeVector);
             float angle = Mathf.Acos(dot);
 
@@ -475,19 +508,15 @@ public class Slicing3D : MonoBehaviour
                 angle = (2 * math.PI) - angle;  // Ensure angle is in 0-360 range
             }
 
-            angles.Add((vertices[i].Item1, angle, vertices[i].Item2));
+            angles.Add((vertices[i], angle));
 
 
         }
-
         angles.Sort((a, b) => a.angle.CompareTo(b.angle));
 
-        List<int> output = new List<int>();
-        for(int i = 0; i < angles.Count; i++){
-            output.Add(angles[i].index);
+        for(int i = 0; i < vertices.Count; i++){
+            vertices[i] = angles[i].vertex;
         }
-
-        return output;
     }
 
     
