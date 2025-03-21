@@ -21,6 +21,10 @@ public class Slicing3D : MonoBehaviour
     private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
 
+
+    public List<Vector3> newVertices = new List<Vector3>();
+    List<int> newTriangles = new List<int>();
+
     List<Vector3> topVerticies = new List<Vector3>();
     List<Vector3> bottomVerticies = new List<Vector3>();
 
@@ -36,14 +40,19 @@ public class Slicing3D : MonoBehaviour
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
+        newVertices = mesh.vertices.ToList<Vector3>();
+        newTriangles = mesh.triangles.ToList<int>();
         getIntersectionPoints(p1.position, p2.position, p3.position, mesh.triangles);
+        
         
         if(isIntersected == true){
             splitMesh(mesh, slicingPlane);
             Destroy(obj);
-
-            
         }
+        mesh.RecalculateNormals();
+        mesh.RecalculateTangents();
+        mesh.RecalculateBounds();
+
     }
 
     void getIntersectionPoints(Vector3 p1, Vector3 p2, Vector3 p3, int[] triangles){
@@ -130,16 +139,21 @@ public class Slicing3D : MonoBehaviour
         }
     }
 
-    bool IsPointOnEdge(Vector3 A, Vector3 B, Vector3 P)
+    bool IsPointOnEdge(Vector3 A, Vector3 B, Vector3 P, bool debug = false)
     {
         Vector3 AB = B - A;
         Vector3 AP = P - A;
 
         // Check if P is collinear with AB using cross product
-        if (Vector3.Cross(AB, AP).sqrMagnitude > 0.00001f) return false;
+        if(debug == true){
+            Debug.Log(Vector3.Cross(AB, AP).sqrMagnitude);
+        }
+
+        if (Vector3.Cross(AB, AP).sqrMagnitude > 1e-9f) return false;
 
         // Check if P is within the bounds of segment AB
         float dotProduct = Vector3.Dot(AP, AB);
+
         return dotProduct >= 0 && dotProduct <= AB.sqrMagnitude;
     }
 
@@ -172,7 +186,7 @@ public class Slicing3D : MonoBehaviour
 
     void SplitTriangle(Mesh mesh, Vector3[] verts, Vector3 intersect1, Vector3 intersect2){
         // get the edge that was not intersected by the straight blade
-        (Vector3, Vector3) IntersectionlessEdge = (Vector3.positiveInfinity, Vector3.positiveInfinity);
+        (Vector3, Vector3) IntersectionlessEdge = (Vector3.zero, Vector3.zero);
         (int, int) IntersectionlessEdgeIndex = (-1,-1);
         
         if(IsPointOnEdge(verts[0], verts[1], intersect1) == false && IsPointOnEdge(verts[0], verts[1], intersect2) == false){
@@ -188,15 +202,13 @@ public class Slicing3D : MonoBehaviour
         else if(IsPointOnEdge(verts[2], verts[0], intersect1) == false && IsPointOnEdge(verts[2], verts[0], intersect2) == false){
             IntersectionlessEdge = (verts[2], verts[0]);
             IntersectionlessEdgeIndex = (2, 0);
+        } else {
+            return;
         }
 
         // getting the connecting middle point for subdivision on the intersectionless edge
         Vector3 midPoint = (IntersectionlessEdge.Item1 + IntersectionlessEdge.Item2) / 2;
         midPoint = new Vector3(midPoint.x, midPoint.y, midPoint.z);
-
-        // triangle filling
-        var newVertices = new List<Vector3>(mesh.vertices);
-        var newTriangles = new List<int>(mesh.triangles);
 
         int basePoint0 = 0, basePoint1 = 0, basePoint2 = 0;
         for (int j = 0; j < mesh.triangles.Length; j += 3)
@@ -213,14 +225,9 @@ public class Slicing3D : MonoBehaviour
         }
 
         // add the new verticies and remember where we stored them
-        newVertices.Add(midPoint);
-        int midPointIndex = newVertices.Count - 1;
-        
-        newVertices.Add(intersect1);
-        int intersect1Index = newVertices.Count - 1;
-
-        newVertices.Add(intersect2);
-        int intersect2Index = newVertices.Count - 1;
+        int midPointIndex = GetOrAddVertexIndex(newVertices, midPoint);
+        int intersect1Index = GetOrAddVertexIndex(newVertices, intersect1);
+        int intersect2Index = GetOrAddVertexIndex(newVertices, intersect2);
 
         // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
         // for each case, we have to draw the smaller triangles in a different way
@@ -281,18 +288,15 @@ public class Slicing3D : MonoBehaviour
             newTriangles.Add(intersect2Index);
             newTriangles.Add(midPointIndex);    
         }
-        
-        // regen the mesh
+
+
         mesh.Clear();
         mesh.vertices = newVertices.ToArray();
         mesh.triangles = newTriangles.ToArray();
-        mesh.RecalculateNormals();
     }
 
     void splitMesh(Mesh mesh, Plane slicingPlane)
     {
-        
-
         for (int i = 0; i < mesh.triangles.Length; i += 3)
         {
             Vector3 v1 = mesh.vertices[mesh.triangles[i]];
@@ -339,11 +343,9 @@ public class Slicing3D : MonoBehaviour
 
         topMesh.vertices = topVerticies.ToArray();
         topMesh.triangles = topTriangles.ToArray();
-        topMesh.RecalculateNormals();
 
         bottomMesh.vertices = bottomVerticies.ToArray();
         bottomMesh.triangles = bottomTriangles.ToArray();
-        bottomMesh.RecalculateNormals();
 
         topPart.GetComponent<MeshFilter>().mesh = topMesh;
         bottomPart.GetComponent<MeshFilter>().mesh = bottomMesh;
@@ -363,9 +365,13 @@ public class Slicing3D : MonoBehaviour
         fill(topMesh, slicingPlane, crossSectionMaterial, topPart, true);
         fill(bottomMesh, slicingPlane, crossSectionMaterial, bottomPart, false);
 
-        for(int i = 0; i < topMesh.vertexCount; i++){
-            //Instantiate(debug1, topMesh.vertices[i], Quaternion.identity);
-        }
+        topMesh.RecalculateNormals();
+        topMesh.RecalculateTangents();
+        topMesh.RecalculateBounds();
+
+        bottomMesh.RecalculateNormals();
+        bottomMesh.RecalculateTangents();
+        bottomMesh.RecalculateBounds();
 
     }
 
@@ -464,7 +470,6 @@ public class Slicing3D : MonoBehaviour
                     crossTriangles.Add(i);
                     crossTriangles.Add(i + 1);
                     crossTriangles.Add(centerIndex);
-                    
                 }
             }
         }
@@ -521,7 +526,7 @@ public class Slicing3D : MonoBehaviour
 
     
 
-    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.0001f)
+    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.0000001f, bool debug = false)
     {
         for (int i = 0; i < vertices.Count; i++)
         {
