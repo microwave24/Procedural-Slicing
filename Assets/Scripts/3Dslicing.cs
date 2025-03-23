@@ -56,8 +56,10 @@ public class Slicing3D : MonoBehaviour
     }
 
     void getIntersectionPoints(Vector3 p1, Vector3 p2, Vector3 p3, int[] triangles){
-        
-        slicingPlane = new Plane(p1, p2, p3);
+        Vector3 localP1 = transform.InverseTransformPoint(p1);
+        Vector3 localP2 = transform.InverseTransformPoint(p2);
+        Vector3 localP3 = transform.InverseTransformPoint(p3);
+        slicingPlane = new Plane(localP1, localP2, localP3);
         Vector3 planeNormal = slicingPlane.normal;
 
         bool oneAbove = false;
@@ -512,7 +514,10 @@ public class Slicing3D : MonoBehaviour
         crossMesh.RecalculateNormals();
         crossPart.GetComponent<MeshFilter>().mesh = crossMesh;
         crossPart.GetComponent<MeshRenderer>().material = crossMaterial;
-        crossPart.transform.position = slicedObj.transform.position;
+
+
+        SetObjectPivot(crossPart.transform, transform.position, transform.rotation, transform.position);
+
         crossPart.transform.parent = slicedObj.transform;
 
 
