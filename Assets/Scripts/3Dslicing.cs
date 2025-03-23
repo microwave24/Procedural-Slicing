@@ -23,7 +23,7 @@ public class Slicing3D : MonoBehaviour
 
 
     public List<Vector3> newVertices = new List<Vector3>();
-    List<int> newTriangles = new List<int>();
+    public List<int> newTriangles = new List<int>();
 
     List<Vector3> topVerticies = new List<Vector3>();
     List<Vector3> bottomVerticies = new List<Vector3>();
@@ -40,8 +40,12 @@ public class Slicing3D : MonoBehaviour
     void Start()
     {
         mesh = obj.GetComponent<MeshFilter>().mesh;
+        
         newVertices = mesh.vertices.ToList<Vector3>();
         newTriangles = mesh.triangles.ToList<int>();
+
+
+        
         getIntersectionPoints(p1.position, p2.position, p3.position, mesh.triangles);
         
         
@@ -49,10 +53,6 @@ public class Slicing3D : MonoBehaviour
             splitMesh(mesh, slicingPlane);
             Destroy(obj);
         }
-        mesh.RecalculateNormals();
-        mesh.RecalculateTangents();
-        mesh.RecalculateBounds();
-
     }
 
     void getIntersectionPoints(Vector3 p1, Vector3 p2, Vector3 p3, int[] triangles){
@@ -133,7 +133,8 @@ public class Slicing3D : MonoBehaviour
                 intersectedTriangles.Add(i + 2);
             }
 
-            if(localIntersects.Count > 0){
+
+            if(localIntersects.Count > 1){
                 SplitTriangle(mesh, CurrentTriangle.ToArray(), localIntersects[0], localIntersects[1]);
             }
         }
@@ -165,6 +166,7 @@ public class Slicing3D : MonoBehaviour
         float d = A * (v2.x - v1.x) + B * (v2.y - v1.y) + C * (v2.z - v1.z);
         
         if (Mathf.Abs(d) == 0) {
+            
             return Vector3.positiveInfinity; // No intersection (parallel case)
         }
         
@@ -206,6 +208,8 @@ public class Slicing3D : MonoBehaviour
             return;
         }
 
+        
+
         // getting the connecting middle point for subdivision on the intersectionless edge
         Vector3 midPoint = (IntersectionlessEdge.Item1 + IntersectionlessEdge.Item2) / 2;
         midPoint = new Vector3(midPoint.x, midPoint.y, midPoint.z);
@@ -225,9 +229,14 @@ public class Slicing3D : MonoBehaviour
         }
 
         // add the new verticies and remember where we stored them
-        int midPointIndex = GetOrAddVertexIndex(newVertices, midPoint);
-        int intersect1Index = GetOrAddVertexIndex(newVertices, intersect1);
-        int intersect2Index = GetOrAddVertexIndex(newVertices, intersect2);
+        int midPointIndex = newVertices.Count; 
+        newVertices.Add(midPoint); 
+
+        int intersect1Index = newVertices.Count;
+        newVertices.Add(intersect1); 
+
+        int intersect2Index = newVertices.Count;
+        newVertices.Add(intersect2);
 
         // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
         // for each case, we have to draw the smaller triangles in a different way
@@ -290,6 +299,11 @@ public class Slicing3D : MonoBehaviour
         }
 
 
+        
+
+
+
+
         mesh.Clear();
         mesh.vertices = newVertices.ToArray();
         mesh.triangles = newTriangles.ToArray();
@@ -308,9 +322,14 @@ public class Slicing3D : MonoBehaviour
 
             if (d > 0)
             {
-                int i1 = GetOrAddVertexIndex(topVerticies, v1);
-                int i2 = GetOrAddVertexIndex(topVerticies, v2);
-                int i3 = GetOrAddVertexIndex(topVerticies, v3);
+                int i1 = topVerticies.Count;
+                topVerticies.Add(v1);
+
+                int i2 = topVerticies.Count;
+                topVerticies.Add(v2);
+
+                int i3 = topVerticies.Count;
+                topVerticies.Add(v3);
 
                 topTriangles.Add(i1);
                 topTriangles.Add(i2);
@@ -318,9 +337,14 @@ public class Slicing3D : MonoBehaviour
             }
             else
             {
-                int i1 = GetOrAddVertexIndex(bottomVerticies, v1);
-                int i2 = GetOrAddVertexIndex(bottomVerticies, v2);
-                int i3 = GetOrAddVertexIndex(bottomVerticies, v3);
+                int i1 = bottomVerticies.Count;
+                bottomVerticies.Add(v1);
+
+                int i2 = bottomVerticies.Count;
+                bottomVerticies.Add(v2);
+
+                int i3 = bottomVerticies.Count;
+                bottomVerticies.Add(v3);
 
                 bottomTriangles.Add(i1);
                 bottomTriangles.Add(i2);
@@ -353,8 +377,8 @@ public class Slicing3D : MonoBehaviour
         GenerateProjectedUVs(topMesh, mesh);
         GenerateProjectedUVs(bottomMesh,mesh);
 
-        topPart.transform.position += obj.transform.position;
-        bottomPart.transform.position += obj.transform.position;
+        SetObjectPivot(topPart.transform, obj.transform.position, obj.transform.rotation, obj.transform.position);
+        SetObjectPivot(bottomPart.transform, obj.transform.position, obj.transform.rotation, obj.transform.position);
 
         topPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
         bottomPart.GetComponent<MeshRenderer>().material = obj.GetComponent<MeshRenderer>().material;
@@ -383,6 +407,7 @@ public class Slicing3D : MonoBehaviour
         // Use base mesh bounds for UV normalization
         Bounds bounds = baseMesh.bounds;
         
+        // Calculate the size of the bounding box to normalize the UVs
         float rangeX = bounds.size.x;
         float rangeY = bounds.size.y;
         float rangeZ = bounds.size.z;
@@ -391,15 +416,17 @@ public class Slicing3D : MonoBehaviour
         if (rangeY == 0) rangeY = 1;
         if (rangeZ == 0) rangeZ = 1;
 
-        // Auto-detect best projection plane (XY, XZ, or YZ)
-        bool projectXY = rangeZ >= rangeX && rangeZ >= rangeY;  // If depth (Z) is the largest, project on XY
-        bool projectXZ = rangeY >= rangeX && rangeY >= rangeZ;  // If height (Y) is the largest, project on XZ
-        bool projectYZ = rangeX >= rangeY && rangeX >= rangeZ;  // If width (X) is the largest, project on YZ
+        // Auto-detect best projection plane based on the mesh's bounding box
+        Vector3 extent = bounds.extents;
+        bool projectXY = extent.z >= extent.x && extent.z >= extent.y;  // If depth (Z) is the largest, project on XY
+        bool projectXZ = extent.y >= extent.x && extent.y >= extent.z;  // If height (Y) is the largest, project on XZ
+        bool projectYZ = extent.x >= extent.y && extent.x >= extent.z;  // If width (X) is the largest, project on YZ
 
         for (int i = 0; i < vertices.Length; i++)
         {
             float u, v;
 
+            // Perform projection based on the detected plane
             if (projectXY)
             {
                 u = (vertices[i].x - bounds.min.x) / rangeX;
@@ -421,6 +448,7 @@ public class Slicing3D : MonoBehaviour
 
         mesh.uv = uvs;
     }
+
 
     void fill(Mesh mesh, Plane slicingPlane, Material crossMaterial, GameObject slicedObj, bool isTopSlice){
 
@@ -473,10 +501,6 @@ public class Slicing3D : MonoBehaviour
                 }
             }
         }
-
-        
-
-
         GameObject crossPart = new GameObject("Cross-section");
         crossPart.AddComponent<MeshFilter>();
         crossPart.AddComponent<MeshRenderer>();
@@ -524,20 +548,25 @@ public class Slicing3D : MonoBehaviour
         }
     }
 
-    
 
-    int GetOrAddVertexIndex(List<Vector3> vertices, Vector3 vertex, float tolerance = 0.0000001f, bool debug = false)
+    void SetObjectPivot(Transform transform, Vector3 newPivot, Quaternion rot, Vector3 pos)
     {
-        for (int i = 0; i < vertices.Count; i++)
-        {
-            if (Vector3.Distance(vertices[i], vertex) < tolerance)
-            {
-                return i;
-                
-            }
-        }
-        vertices.Add(vertex);
-        return vertices.Count - 1;
-    }
+        // Create an empty GameObject at the new pivot position
+        GameObject pivotObject = new GameObject("PivotObject");
+        pivotObject.transform.position = transform.position + newPivot;
 
+        // Make the current object a child of the pivotObject
+        transform.SetParent(pivotObject.transform);
+
+        // Now set the local position of the object to the new pivot point
+        transform.localPosition = Vector3.zero;
+
+        pivotObject.transform.position = pos;
+        pivotObject.transform.rotation = rot;
+
+        transform.SetParent(null);
+        Destroy(pivotObject);
+
+
+    }
 }
