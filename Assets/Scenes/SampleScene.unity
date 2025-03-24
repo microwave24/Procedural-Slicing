@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 401647826}
   - component: {fileID: 401647825}
   - component: {fileID: 401647830}
+  - component: {fileID: 401647831}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -508,7 +509,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 85038b1310dbfb740af851989c5ee295, type: 2}
+  - {fileID: 2100000, guid: 06925a49fa0545b4c9c8f1c4f26fb8ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -537,7 +538,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401647824}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &401647829
 Transform:
   m_ObjectHideFlags: 0
@@ -546,13 +547,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401647824}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.14155383, w: 0.98993057}
-  m_LocalPosition: {x: -0.545, y: -0.884, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -16.276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &401647830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +562,18 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401647824}
   m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d01d32e5a8dad4a89a2f11baf77bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &401647831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401647824}
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17d01d32e5a8dad4a89a2f11baf77bed, type: 3}
   m_Name: 

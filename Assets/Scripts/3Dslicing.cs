@@ -20,8 +20,6 @@ public class Slicing3D : MonoBehaviour
     public List<Vector3> intersections = new List<Vector3>();
     private List<int> intersectedTriangles = new List<int>();
     private Plane slicingPlane;
-
-
     public List<Vector3> newVertices = new List<Vector3>();
     public List<int> newTriangles = new List<int>();
 
@@ -210,8 +208,6 @@ public class Slicing3D : MonoBehaviour
             return;
         }
 
-        
-
         // getting the connecting middle point for subdivision on the intersectionless edge
         Vector3 midPoint = (IntersectionlessEdge.Item1 + IntersectionlessEdge.Item2) / 2;
         midPoint = new Vector3(midPoint.x, midPoint.y, midPoint.z);
@@ -242,69 +238,15 @@ public class Slicing3D : MonoBehaviour
 
         // a triangle can be cut in three ways depending on which edge was not intersected by a straight blade
         // for each case, we have to draw the smaller triangles in a different way
-        if(IntersectionlessEdgeIndex == (0, 1)){
-            newTriangles.Add(basePoint0);
-            newTriangles.Add(midPointIndex);
-            newTriangles.Add(intersect2Index);
+        int[][] cases = new int[][]
+        {
+            new int[] { basePoint0, midPointIndex, intersect2Index, basePoint1, intersect1Index, midPointIndex, intersect1Index, basePoint2, intersect2Index, midPointIndex, intersect1Index, intersect2Index },
+            new int[] { basePoint0, intersect1Index, intersect2Index, intersect1Index, basePoint1, midPointIndex, intersect2Index, midPointIndex, basePoint2, intersect1Index, midPointIndex, intersect2Index },
+            new int[] { intersect1Index, basePoint1, intersect2Index, basePoint0, intersect1Index, midPointIndex, midPointIndex, intersect2Index, basePoint2, intersect1Index, intersect2Index, midPointIndex }
+        };
 
-            newTriangles.Add(basePoint1);
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(midPointIndex);
-
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(basePoint2);
-            newTriangles.Add(intersect2Index);
-
-            newTriangles.Add(midPointIndex);
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(intersect2Index);
-
-
-        }
-        else if(IntersectionlessEdgeIndex == (1, 2)){
-            newTriangles.Add(basePoint0);
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(intersect2Index);
-            
-
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(basePoint1);
-            newTriangles.Add(midPointIndex);
-            
-            newTriangles.Add(intersect2Index);
-            newTriangles.Add(midPointIndex);
-            newTriangles.Add(basePoint2);
-            
-
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(midPointIndex);
-            newTriangles.Add(intersect2Index);
-            
-            
-        }
-        else if(IntersectionlessEdgeIndex == (2, 0)){
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(basePoint1);
-            newTriangles.Add(intersect2Index);
-            
-            newTriangles.Add(basePoint0);
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(midPointIndex);
-            
-            newTriangles.Add(midPointIndex);
-            newTriangles.Add(intersect2Index);
-            newTriangles.Add(basePoint2);
-            
-            newTriangles.Add(intersect1Index);
-            newTriangles.Add(intersect2Index);
-            newTriangles.Add(midPointIndex);    
-        }
-
-
-        
-
-
-
+        int index = IntersectionlessEdgeIndex switch { (0, 1) => 0, (1, 2) => 1, (2, 0) => 2, _ => -1 };
+        if (index != -1) newTriangles.AddRange(cases[index]);
 
         mesh.Clear();
         mesh.vertices = newVertices.ToArray();
@@ -515,14 +457,9 @@ public class Slicing3D : MonoBehaviour
         crossPart.GetComponent<MeshFilter>().mesh = crossMesh;
         crossPart.GetComponent<MeshRenderer>().material = crossMaterial;
 
-
         SetObjectPivot(crossPart.transform, transform.position, transform.rotation, transform.position);
 
         crossPart.transform.parent = slicedObj.transform;
-
-
-
-        
     }
 
     void SortClockwise(List<Vector3> vertices, Plane slicingPlane, Vector3 center)
@@ -571,7 +508,5 @@ public class Slicing3D : MonoBehaviour
 
         transform.SetParent(null);
         Destroy(pivotObject);
-
-
     }
 }
